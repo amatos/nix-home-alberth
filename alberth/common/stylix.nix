@@ -66,6 +66,12 @@
       gtk.enable = false;
       gnome.enable = false;
       eog.enable = false;
+
+      # Vencord isn't installed anywhere in the fleet (BetterDiscord is the
+      # Discord mod actually used — see hosts/darwin/codex/homebrew.nix in
+      # nixie); this target only ever produced an orphaned theme file under
+      # ~/.config/Vencord with nothing to consume it.
+      vencord.enable = false;
     };
   };
 }

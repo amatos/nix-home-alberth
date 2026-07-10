@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Fixed
+
+- `alberth/common/stylix.nix` — disabled `stylix.targets.vencord`. Vencord
+  isn't installed anywhere in the fleet (BetterDiscord is the Discord mod
+  actually used), so this target only ever produced an orphaned theme file
+  under `~/.config/Vencord` with nothing to consume it.
+
 ---
 
 ## 26.07.02
