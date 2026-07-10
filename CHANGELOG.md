@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- `.envrc` (`use flake`) — direnv now loads the devShell automatically on
+  `cd`; documented in README "Development shell".
+
 ---
 
 ## 26.07.01

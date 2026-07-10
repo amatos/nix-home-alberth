@@ -31,8 +31,17 @@ adding a new host overlay (see `CLAUDE.md` "Layout").
 A devShell is provided for this repo's own tooling (`nixfmt`, plus the pre-commit hooks below):
 
 ```bash
-cd /path/to/nixie-homes
+# Enter the dev shell (automatically via direnv, or manually)
 nix develop
+
+# Or, if direnv is installed and .envrc is allowed:
+cd nixie-homes   # shell loads automatically
+```
+
+To activate direnv:
+
+```bash
+direnv allow
 ```
 
 This installs `nixfmt`/`markdownlint-cli2`/`commitlint` pre-commit hooks into `.git/hooks`,
