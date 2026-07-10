@@ -29,6 +29,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    direnv-instant = {
+      url = "github:Mic92/direnv-instant";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,6 +49,7 @@
       nvf,
       qmd,
       stylix,
+      direnv-instant,
       pre-commit-hooks,
       ...
     }:
@@ -64,6 +70,7 @@
         nvf.homeManagerModules.default
         qmd.homeModules.default
         stylix.homeModules.stylix
+        direnv-instant.homeModules.direnv-instant
       ];
 
       # Ready-to-use standalone `home-manager switch --flake .#<name>` configs

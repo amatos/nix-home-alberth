@@ -8,6 +8,16 @@ All notable changes to this project will be documented in this file.
 
 - `.envrc` (`use flake`) — direnv now loads the devShell automatically on
   `cd`; documented in README "Development shell".
+- `direnv-instant` flake input (`github:Mic92/direnv-instant`), added to
+  `sharedHomeModules` and enabled via `programs.direnv-instant.enable = true`
+  in `alberth/common/tools.nix` — runs direnv in a background daemon so the
+  shell prompt returns immediately instead of blocking on `.envrc`.
+
+### Changed
+
+- `alberth/common/tools.nix` — disabled `programs.direnv`'s own
+  bash/zsh/fish/nushell shell hook integrations (`nix-direnv` itself stays
+  enabled); `direnv-instant` now owns the shell hook for all four shells.
 
 ---
 

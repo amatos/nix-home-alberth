@@ -44,14 +44,21 @@
     options = [ "--cmd cd" ];
   };
 
-  # direnv with nix-direnv
+  # direnv with nix-direnv — shell hook integration is handled by
+  # direnv-instant below instead, so disabled here to avoid double-hooking.
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-    enableFishIntegration = true;
+    enableBashIntegration = false;
+    enableZshIntegration = false;
+    enableFishIntegration = false;
+    enableNushellIntegration = false;
   };
+
+  # direnv-instant — non-blocking shell hook (runs direnv in a background
+  # daemon so the prompt returns immediately); replaces programs.direnv's
+  # own hook integration above. Defaults enable bash/zsh/fish/nushell hooks.
+  programs.direnv-instant.enable = true;
 
   # Nushell
   programs.nushell.enable = true;
