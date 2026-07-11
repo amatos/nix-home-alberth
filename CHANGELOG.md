@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+---
+
+## 26.07.03
+
 ### Removed
 
 - `alberth/common/shells.nix` — dropped the `ragenix` shell alias
