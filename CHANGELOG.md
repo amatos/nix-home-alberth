@@ -60,6 +60,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- `alberth/common/starship.nix` — replaced the `mantle` color with `comment`
 - `alberth/gammu.nix` — renamed the `steamup` systemd user unit to `steam`
   (`systemd.user.services.steam`); update any `systemctl --user
   start/stop/restart steamup` / `journalctl --user -u steamup` usage to

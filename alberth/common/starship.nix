@@ -21,7 +21,7 @@ _:
     # \n in a Nix regular string is a real newline; home-manager serialises it
     # to TOML as \n which Starship interprets as a line break.
 
-    format = "[╭─](mantle)[](purple)$os$username$hostname[](bg:cyan fg:purple)$directory[](bg:pink fg:cyan)$git_branch$git_status[](fg:pink bg:green)$c$rust$golang$nodejs$php$java$kotlin$haskell$python$nix_shell[](fg:green bg:comment)$conda[](fg:comment bg:comment)$time[](fg:comment)$cmd_duration\n[╰─](mantle)$character";
+    format = "[╭─](comment)[](purple)$os$username$hostname[](bg:cyan fg:purple)$directory[](bg:pink fg:cyan)$git_branch$git_status[](fg:pink bg:green)$c$rust$golang$nodejs$php$java$kotlin$haskell$python$nix_shell[](fg:green bg:comment)$conda[](fg:comment bg:comment)$time[](fg:comment)$cmd_duration\n[╰─](comment)$character";
 
     palette = "dracula";
 
