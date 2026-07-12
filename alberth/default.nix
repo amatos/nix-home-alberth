@@ -65,6 +65,12 @@ in
     executable = true;
   };
 
+  # update-flake.py [input] — used by the nixflakeup alias (shells.nix).
+  home.file.".local/bin/update-flake.py" = {
+    source = ./scripts/update-flake.py;
+    executable = true;
+  };
+
   # .editorconfig — https://editorconfig.org
   home.file.".editorconfig".text = ''
     # EditorConfig is awesome: https://editorconfig.org

@@ -6,6 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- `alberth/scripts/update-flake.py`, deployed to `~/.local/bin/update-flake.py`
+  — resets nixie's `flake-rebuild` branch to the tip of `origin/main`, updates
+  one flake input (arg) or all of them (no arg), and commits + force-pushes
+  `flake.lock` only if it changed, restoring the previous branch and any
+  stashed changes afterward. `flake-rebuild` is reset (not merged) from
+  `origin/main` and force-pushed on every run — a disposable single-commit
+  branch, not an accumulating history; a future CI workflow will trigger on
+  pushes to it and merge into `main` once checks pass.
 - `alberth/common/zed/settings.json` — `agent_servers` entries for `gemini`,
   `github-copilot-cli`, and `codex-acp` (all `registry`-sourced), alongside
   the existing `claude-acp` entry, so Zed's Agent Panel can drive those ACP
@@ -13,6 +21,11 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- `alberth/common/shells.nix` — `nixflakeup` alias now calls
+  `update-flake.py` instead of an inline `nix flake update` one-liner; see
+  "Added" above.
+- `alberth/common/packages.nix` — added `python3` (needed by
+  `update-flake.py`).
 - `alberth/common/atuin.nix` — `ai.enabled = false` in `programs.atuin.settings`,
   disabling atuin's `?`-at-empty-prompt keybind (Atuin AI / natural language
   mode) that atuin's shell integration binds by default.

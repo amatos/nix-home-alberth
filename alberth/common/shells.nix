@@ -17,7 +17,7 @@ in
     cat = "bat";
     nixpull = "pushd $HOME/Projects/nixie && git pull && popd";
     nixpush = "pushd $HOME/Projects/nixie && git push && popd";
-    nixflakeup = "pushd $HOME/Projects/nixie && nix flake update && git add flake.lock && git commit -m 'chore: updated flake.lock' && git push && popd";
+    nixflakeup = "update-flake.py";
     npbs = "nixpull && nixbuild && nixswitch";
 
     # `ls` itself is a per-shell function below (rewrites -t to --sort=newest);

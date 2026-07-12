@@ -9,6 +9,7 @@
       imagemagick # image manipulation
       openssl # cryptographic toolkit
       pandoc # universal document converter
+      python3 # update-flake.py (scripts/update-flake.py) needs a python3 on PATH
       ragenix # ragenix CLI — rekey secrets, add recipients
       ripgrep # fast recursive search (rg)
 
