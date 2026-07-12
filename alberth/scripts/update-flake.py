@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-# update-flake.py — reset nixie's flake-rebuild branch to the tip of origin/main,
-# update one flake input (or all of them), and push flake.lock if it changed.
+# update-flake.py — reset a repo's flake-update branch to the tip of
+# origin/main, update one flake input (or all of them), and push flake.lock
+# if it changed. Defaults to the nixie repo (~/Projects/nixie,
+# github:amatos/nixie); pass a different repo name to target any other
+# ~/Projects/<repo> checkout of github:amatos/<repo>.
 #
-# flake-rebuild is intentionally reset (not merged/rebased) from origin/main on
+# flake-update is intentionally reset (not merged/rebased) from origin/main on
 # every run and force-pushed: it is a disposable, single-commit branch, not an
-# accumulating history. A future CI workflow triggers on pushes to flake-rebuild
-# and merges it into main once checks pass.
+# accumulating history. A future CI workflow triggers on pushes to
+# flake-update and merges it into main once checks pass.
 
 from __future__ import annotations
 
@@ -14,10 +17,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-REPO_DIR = Path.home() / "Projects" / "nixie"
-REPO_REMOTE = "git@github.com:amatos/nixie.git"
+DEFAULT_REPO_NAME = "nixie"
 MAIN_BRANCH = "main"
-WORK_BRANCH = "flake-rebuild"
+WORK_BRANCH = "flake-update"
 
 
 def run(args: list[str], cwd: Path) -> subprocess.CompletedProcess:
@@ -71,9 +73,9 @@ def update_flake(repo_dir: Path, remote: str, flake_input: str | None) -> None:
 
     try:
         # Fetch every branch, not just main: --force-with-lease below needs a
-        # fresh origin/flake-rebuild remote-tracking ref to compare against.
+        # fresh origin/flake-update remote-tracking ref to compare against.
         # (--force-if-includes is not usable here — it additionally requires
-        # flake-rebuild's reflog to already contain a transition from the old
+        # flake-update's reflog to already contain a transition from the old
         # remote tip, which a fresh clone's brand-new local branch never has.)
         run(["git", "fetch", "origin"], cwd=repo_dir)
         run(["git", "checkout", "-B", WORK_BRANCH, f"origin/{MAIN_BRANCH}"], cwd=repo_dir)
@@ -99,9 +101,15 @@ def update_flake(repo_dir: Path, remote: str, flake_input: str | None) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Reset nixie's flake-rebuild branch to origin/main, update a flake "
+            "Reset a repo's flake-update branch to origin/main, update a flake "
             "input (or all inputs), and push flake.lock if it changed."
         ),
+    )
+    parser.add_argument(
+        "repo",
+        nargs="?",
+        default=DEFAULT_REPO_NAME,
+        help=f"repo to update, under ~/Projects/<repo> (default: {DEFAULT_REPO_NAME})",
     )
     parser.add_argument(
         "flake_input",
@@ -111,8 +119,11 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    repo_dir = Path.home() / "Projects" / args.repo
+    repo_remote = f"git@github.com:amatos/{args.repo}.git"
+
     try:
-        update_flake(REPO_DIR, REPO_REMOTE, args.flake_input)
+        update_flake(repo_dir, repo_remote, args.flake_input)
     except subprocess.CalledProcessError as exc:
         print(f"update-flake.py: {exc}", file=sys.stderr)
         return 1

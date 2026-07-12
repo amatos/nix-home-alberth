@@ -7,13 +7,16 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - `alberth/scripts/update-flake.py`, deployed to `~/.local/bin/update-flake.py`
-  — resets nixie's `flake-rebuild` branch to the tip of `origin/main`, updates
-  one flake input (arg) or all of them (no arg), and commits + force-pushes
-  `flake.lock` only if it changed, restoring the previous branch and any
-  stashed changes afterward. `flake-rebuild` is reset (not merged) from
-  `origin/main` and force-pushed on every run — a disposable single-commit
-  branch, not an accumulating history; a future CI workflow will trigger on
-  pushes to it and merge into `main` once checks pass.
+  — resets a repo's `flake-update` branch to the tip of `origin/main`,
+  updates one flake input (2nd arg) or all of them (no 2nd arg), and
+  commits and force-pushes `flake.lock` only if it changed, restoring the
+  previous branch and any stashed changes afterward. Defaults to the `nixie`
+  repo (`~/Projects/nixie`, `github:amatos/nixie`); an optional 1st arg targets
+  any other `~/Projects/<repo>` checkout of `github:amatos/<repo>` instead.
+  `flake-update` is reset (not merged) from `origin/main` and force-pushed
+  on every run — a disposable single-commit branch, not an accumulating
+  history; a future CI workflow will trigger on pushes to it and merge into
+  `main` once checks pass.
 - `alberth/common/zed/settings.json` — `agent_servers` entries for `gemini`,
   `github-copilot-cli`, and `codex-acp` (all `registry`-sourced), alongside
   the existing `claude-acp` entry, so Zed's Agent Panel can drive those ACP
@@ -21,9 +24,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- `alberth/common/shells.nix` — `nixflakeup` alias now calls
-  `update-flake.py` instead of an inline `nix flake update` one-liner; see
-  "Added" above.
+- `alberth/common/shells.nix` — `nixflakeup` alias renamed to `nixieflakeup`
+  and now calls `update-flake.py nixie` instead of an inline `nix flake
+  update` one-liner; see "Added" above.
 - `alberth/common/packages.nix` — added `python3` (needed by
   `update-flake.py`).
 - `alberth/common/atuin.nix` — `ai.enabled = false` in `programs.atuin.settings`,
