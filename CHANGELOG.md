@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- `alberth/scripts/npbs-all.sh` — added `muninn` to the list of remote hosts.
 - `alberth/common/shells.nix` — `nixflakeup` alias renamed to `nixieflakeup`
   and now calls `update-flake.py nixie` instead of an inline `nix flake
   update` one-liner; see "Added" above.

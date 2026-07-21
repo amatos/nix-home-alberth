@@ -7,7 +7,7 @@
 
 set -uo pipefail
 
-REMOTE_HOSTS=(gammu porkchop huginn)
+REMOTE_HOSTS=(gammu porkchop huginn muninn)
 
 # npbs is a shell alias (only active in interactive sessions). Expand it
 # inline using the fish functions nixbuild and nixswitch, which are proper
