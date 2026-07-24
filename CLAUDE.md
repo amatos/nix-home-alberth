@@ -99,6 +99,21 @@ there afterward — it can't see an unpushed commit.
 - Modules that use `osConfig` (i.e. `nixos.nix`) only work when home-manager runs as a
   NixOS/darwin module — keep those clearly separate from portable modules meant to
   work standalone too, and never add them to `homeConfigurations` in `flake.nix`.
+- **Nixpkgs channels**: this repo carries both `nixpkgs` (flakehub `/0.1`, unstable) and
+  `nixpkgs-stable` (flakehub `/0`, stable) inputs, mirroring nixie's own split (see nixie's
+  `CLAUDE.md` "Nixpkgs channels"). `mkHome` in `flake.nix` takes a `nixpkgsSource` parameter
+  (default `nixpkgs-stable`) so each standalone `homeConfigurations` entry can match its
+  nixie counterpart's channel: `alberth@codex`/`alberth@gammu` pass `nixpkgsSource =
+  nixpkgs` (unstable, matching those hosts in nixie); `alberth@darwintron` uses the
+  `nixpkgs-stable` default. This only affects the *standalone* `home-manager switch
+  --flake` path — when consumed by nixie, this repo's own `nixpkgs`/`nixpkgs-stable`
+  inputs are irrelevant, since nixie's `nix-home-alberth` input already sets
+  `nixpkgs.follows = "nixpkgs"` (nixie's own, whichever channel that host's
+  `nixosConfigurations`/`darwinConfigurations` entry actually uses). Note: the
+  `home-manager` input here stays pinned to the `release-26.05` branch regardless of
+  which `nixpkgsSource` a standalone config picks — a version-skew risk for
+  `alberth@codex`/`alberth@gammu` (unstable pkgs, stable-branch home-manager) that exists
+  only in the standalone path and hasn't been fixed.
 
 ## Formatting
 

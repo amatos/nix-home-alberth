@@ -16,7 +16,6 @@
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    historyWidget.command = "";
     enableZshIntegration = true;
     enableFishIntegration = true;
   };

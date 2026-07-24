@@ -6,13 +6,22 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- `alberth/common/tools.nix` - `programs.fzf.historyWidget.command` set to
-  `""`, disabling fzf's own CTRL-R binding. `alberth/common/atuin.nix`
-  already binds CTRL-R for atuin's history search; an empty string is
-  home-manager's supported way to yield the CTRL-R binding to a history
-  manager like Atuin (see the option's own description in `fzf.nix`).
-  Without this, fzf's shell integration was silently fighting atuin for
-  the same keybinding.
+- `flake.nix` — bumped `nixpkgs` to flakehub `0.1` (unstable) and added a
+  `nixpkgs-stable` input at `0`, mirroring nixie's own channel split.
+  `mkHome` now takes a `nixpkgsSource` param (default `nixpkgs-stable`);
+  `alberth@codex`/`alberth@gammu` pass `nixpkgs` (unstable) to match their
+  nixie host counterparts, `alberth@darwintron` stays on the stable
+  default.
+- `alberth/common/tools.nix` — reverted the previous `historyWidget.command`
+  fzf setting: that option doesn't exist (home-manager's own flat
+  `historyWidgetCommand` was removed upstream — "no longer supported by
+  fzf" — and it was never nested under `historyWidget` in the first
+  place), so it broke evaluation for every `homeConfiguration`/nixie host.
+  Turns out no fix was needed: home-manager's `fzf.nix` already orders its
+  own shell-integration init early (`mkOrder 910` for zsh, `200` for bash)
+  specifically so a later-loaded history manager like atuin's own
+  (unordered, default-priority) init wins the CTRL-R binding — see that
+  module's own comments. `alberth/common/atuin.nix` needed no change.
 
 ---
 

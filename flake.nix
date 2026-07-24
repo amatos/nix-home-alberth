@@ -2,7 +2,8 @@
   description = "nix-home-alberth — standalone home-manager configurations, usable with or without nixie";
 
   inputs = {
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0"; # Stable Nixpkgs (use 0.1 for unstable)
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1"; # Unstable Nixpkgs (use 0 for stable)
+    nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0"; # Stable Nixpkgs (use 0.1 for unstable)
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05"; # pin to same release as nixpkgs
@@ -43,6 +44,7 @@
   outputs =
     {
       nixpkgs,
+      nixpkgs-stable,
       home-manager,
       nix-secrets,
       nvf,
@@ -86,9 +88,12 @@
           system,
           hostModule,
           darwin ? false,
+          # Matches this host's channel in nixie's own flake.nix — gammu/codex
+          # track nixpkgs (unstable), everything else tracks nixpkgs-stable.
+          nixpkgsSource ? nixpkgs-stable,
         }:
         home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
+          pkgs = import nixpkgsSource {
             inherit system;
             config.allowUnfree = true; # 1Password, etc. — nixie sets this via
             # nixpkgs.config.allowUnfree at the NixOS/darwin module level,
@@ -166,6 +171,7 @@
           system = "aarch64-darwin";
           hostModule = ./alberth/codex.nix;
           darwin = true;
+          nixpkgsSource = nixpkgs;
         };
         "alberth@darwintron" = mkHome {
           system = "aarch64-darwin";
@@ -175,6 +181,7 @@
         "alberth@gammu" = mkHome {
           system = "x86_64-linux";
           hostModule = ./alberth/gammu.nix;
+          nixpkgsSource = nixpkgs;
         };
       };
 
